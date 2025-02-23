@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>यूपी-बोर्ड कक्षा 12 हिंदी - क्विज़ 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<style>body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 600px;
+    max-width: 90%;
+}
+
+h1 {
+    text-align: center;
+    color: #4a148c;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#timer {
+    text-align: center;
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    color: #764ba2;
+    font-weight: 600;
+}
+
+#progress {
+    width: 100%;
+    background-color: #f0f0f0;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#progressBar {
+    width: 0%;
+    height: 25px;
+    background: linear-gradient(to right, #4a148c, #6a1b9a);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+
+input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+button {
+    background: linear-gradient(to right, #4a148c, #6a1b9a);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(to right, #6a1b9a, #4a148c);
+}
+
+.question {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
+
+.correct {
+    background-color: #e8f5e9;
+    border-color: #a5d6a7;
+}
+
+.incorrect {
+    background-color: #ffebee;
+    border-color: #ef9a9a;
+}
+
+.correct, .incorrect {
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.correct p, .incorrect p {
+    margin-top: 10px;
+    font-weight: normal;
+}
+
+.result-container {
+    margin-top: 25px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    text-align: center;
+}
+
+.result-container h2 {
+    color: #4a148c;
+    margin-bottom: 15px;
+}
+
+.result-container p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+</style>
+    <div class="container">
+        <h1>यूपी-बोर्ड कक्षा 12 हिंदी - क्विज़ 1</h1>
+        <div id="timer">समय शेष: <span id="time"></span></div>
+        <div id="progress">
+            <div id="progressBar"></div>
+        </div>
+        <form id="quizForm">
+            <label for="studentName">अपना नाम दर्ज करें:</label>
+            <input type="text" id="studentName" name="studentName" required><br><br>
+            <div id="questions"></div>
+            <button type="button" onclick="submitQuiz()">सबमिट करें</button>
+        </form>
+        <div id="result" class="result-container"></div>
+    </div>
+    <script>const questions = [
+    {
+        question: "राजा शिवप्रसाद 'सितारे हिंद' की रचना है:",
+        options: ["राजा-भोज का सपना", "रानी केतकी की कहानी", "प्रेमसागर", "प्रेमवती"],
+        correctAnswer: "राजा-भोज का सपना"
+    },
+    {
+        question: "भारतेंदु-युग के लेखक हैं:",
+        options: ["भगवत शरण उपाध्याय", "प्रताप नारायण मिश्र", "रघुवीर सहाय", "मैथिलीशरण गुप्त"],
+        correctAnswer: "प्रताप नारायण मिश्र"
+    },
+    {
+        question: " 'मेरी असफलताएँ' किस विधा की रचना है?",
+        options: ["कहानी", "आत्मकथा", "डायरी", "जीवनी-साहित्य"],
+        correctAnswer: "आत्मकथा"
+    },
+    {
+        question: " 'आवारा मसीहा' के लेखक हैं:",
+        options: ["विष्णु प्रभाकर", "राहुल सांकृत्यायन", "शिवदान सिंह चौहान", "जैनेंद्र"],
+        correctAnswer: "विष्णु प्रभाकर"
+    },
+    {
+        question: " हिन्दी का प्रथम मौलिक उपन्यास है:",
+        options: ["तितली", "कंकाल", "परीक्षा गुरु", "गबन"],
+        correctAnswer: "परीक्षा गुरु"
+    },
+    {
+        question: " 'निज भाषा उन्नति अहै, सब उन्नति को मूल' यह काव्य पंक्ति है:",
+        options: ["अयोध्यासिंह उपाध्याय 'हरिऔध' की", "मैथिलीशरण गुप्त की", "भारतेंदु हरिश्चन्द्र की", "नरेश मेहता की"],
+        correctAnswer: "भारतेंदु हरिश्चन्द्र की"
+    },
+    {
+        question: " ‘स्थूल के प्रति सूक्ष्म का विद्रोह है':",
+        options: ["भारतेंदु-युग", "द्विवेदी-युग", "छायावाद", "प्रगतिवाद"],
+        correctAnswer: "छायावाद"
+    },
+    {
+        question: "'वैदेही वनवास' रचना है:",
+        options: ["रामनरेश त्रिपाठी की", "श्रीधर पाठक की", "अयोध्यासिंह उपाध्याय 'हरिऔध' की", "महावीर प्रसाद द्विवेदी की"],
+        correctAnswer: "अयोध्यासिंह उपाध्याय 'हरिऔध' की"
+    },
+    {
+        question: " भारतेंदु ने स्त्री शिक्षा से संबंधित किस पत्रिका का प्रकाशन किया था?",
+        options: ["हरिश्चन्द्र-चंद्रिका", "हंस", "कविवचन सुधा", "बाला बोधिनी"],
+        correctAnswer: "बाला बोधिनी"
+    },
+    {
+        question: " 'गंगालहरी' के रचनाकार हैं:",
+        options: ["जगन्नाथ दास 'रत्नाकर'", "सूरदास", "तुलसीदास", "भारतेंदु हरिश्चन्द्र"],
+        correctAnswer: "जगन्नाथ दास 'रत्नाकर'"
+    },
+    {
+        question: " खड़ीबोली की प्रथम रचना मानी जाती है:",
+        options: ["साहित्यालोचन", "गोरा बादल की कथा", "पद्मावत", "साहित्य लहरी"],
+        correctAnswer: "गोरा बादल की कथा"
+    },
+    {
+        question: "'तिब्बत यात्रा' के लेखक हैं:",
+        options: ["अध्यापक पूर्ण सिंह", "बालकृष्ण भट्ट", "राहुल सांकृत्यायन", "नंद दुलारे वाजपेयी"],
+        correctAnswer: "राहुल सांकृत्यायन"
+    },
+    {
+        question: "कौन-सी रचना नाटक नहीं है?",
+        options: ["गरुड़ध्वज", "अपना-अपना भाग्य", "आन का मान", "राजमुकुट"],
+        correctAnswer: "अपना-अपना भाग्य"
+    },
+    {
+        question: " 'माटी की मूरतें' के लेखक हैं:",
+        options: ["बालकृष्ण भट्ट", "महावीर प्रसाद त्रिवेदी", "रामवृक्ष बेनीपुरी", "हजारी प्रसाद द्विवेदी"],
+        correctAnswer: "रामवृक्ष बेनीपुरी"
+    },
+    {
+        question: " 'चिन्तामणि' किस विधा की रचना है?",
+        options: ["कहानी", "निबंध", "नाटक", "उपन्यास"],
+        correctAnswer: "निबंध"
+    },
+    {
+        question: " ज्ञानपीठ पुरस्कार निम्नलिखित में से किस रचना पर मिला है?",
+        options: ["लोकायतन", "चिदम्बरा", "कला और बूढ़ा चाँद", "ग्राम्या"],
+        correctAnswer: "चिदम्बरा"
+    },
+    {
+        question: " 'श्रद्धा-मनु' शीर्षक रचना किस ग्रंथ से संकलित है?",
+        options: ["आँसू", "लहर", "कामायनी", "झरना"],
+        correctAnswer: "कामायनी"
+    },
+    {
+        question: "सूर्यकान्त त्रिपाठी की रचना है:",
+        options: ["बापू के प्रति", "पल्लव", "अँधेरे में", "राम की शक्ति पूजा"],
+        correctAnswer: "राम की शक्ति पूजा"
+    },
+    {
+        question: " 'महादेवी वर्मा' को 'ज्ञानपीठ' पुरस्कार किस सन् में प्राप्त हुआ?",
+        options: ["सन् 1976", "सन् 1980", "सन् 1983", "सन् 1985"],
+        correctAnswer: "सन् 1983"
+    },
+    {
+        question: "'इन्दु' पत्रिका के प्रकाशक हैं:",
+        options: ["आचार्य महावीर प्रसाद द्विवेदी", "चन्द्र धर शर्मा 'गुलेरी'", "अम्बिका प्रसाद गुप्त", "बालकृष्ण शर्मा 'नवीन'"],
+        correctAnswer: "अम्बिका प्रसाद गुप्त"
+    }
+];
+
+let studentScores = {};
+let timeLeft = 600; // 10 minutes (600 seconds)
+let currentQuestionIndex = 0;
+let score = 0;
+let timerInterval;
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function displayQuestion() {
+    const questionContainer = document.getElementById("questions");
+    questionContainer.innerHTML = "";
+    const question = questions[currentQuestionIndex];
+    const questionDiv = document.createElement("div");
+    questionDiv.classList.add("question");
+    questionDiv.innerHTML = `<p>${question.question}</p>`;
+    question.options.forEach(option => {
+        questionDiv.innerHTML += `<label><input type="radio" name="q${currentQuestionIndex}" value="${option}"> ${option}</label><br>`;
+    });
+
+    if (currentQuestionIndex < questions.length - 1) {
+        questionDiv.innerHTML += `<button type="button" onclick="nextQuestion()">अगला प्रश्न</button>`;
+    } else {
+        questionDiv.innerHTML += `<button type="button" onclick="submitQuiz()">सबमिट करें</button>`;
+    }
+    questionContainer.appendChild(questionDiv);
+}
+
+function nextQuestion() {
+    const selectedAnswer = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
+    if (selectedAnswer) {
+        if (selectedAnswer.value === questions[currentQuestionIndex].correctAnswer) {
+            score++;
+            document.querySelector(`.question:last-child`).classList.add('correct');
+        } else {
+            document.querySelector(`.question:last-child`).classList.add('incorrect');
+        }
+        document.querySelector(`.question:last-child`).innerHTML += `<p>सही उत्तर: ${questions[currentQuestionIndex].correctAnswer}</p>`;
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            displayQuestion();
+            updateProgressBar();
+        }
+    } else {
+        alert("कृपया एक विकल्प चुनें!");
+    }
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById("time").textContent = formatTime(timeLeft);
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            submitQuiz();
+        }
+    }, 1000);
+}
+
+function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+}
+
+function updateProgressBar() {
+    const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+    document.getElementById("progressBar").style.width = `${progress}%`;
+}
+
+function submitQuiz() {
+    clearInterval(timerInterval);
+    const selectedAnswer = document.querySelector(`input[name="q${currentQuestionIndex}"]:checked`);
+    if (selectedAnswer) {
+        if (selectedAnswer.value === questions[currentQuestionIndex].correctAnswer) {
+            score++;
+            document.querySelector(`.question:last-child`).classList.add('correct');
+        } else {
+            document.querySelector(`.question:last-child`).classList.add('incorrect');
+        }
+    }
+    const studentName = document.getElementById("studentName").value || "अज्ञात छात्र";
+    studentScores[studentName] = score;
+    storeScores();
+    displayResult(studentName, score, questions.length);
+}
+
+function displayResult(name, score, total) {
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = `
+        <h2>परिणाम</h2>
+        <p>छात्र का नाम: ${name}</p>
+        <p>कुल अंक: ${score} / ${total}</p>
+        <p>प्रतिशत: ${(score / total) * 100}%</p>
+    `;
+
+    const sortedScores = Object.entries(studentScores).sort(([, a], [, b]) => b - a);
+    let rankList = "<h3>रैंकिंग</h3><ul>";
+    let userRank = -1;
+    let userPercentile = 0;
+    const totalStudents = sortedScores.length;
+
+    sortedScores.forEach(([student, studentScore], index) => {
+        if (index < 10) {
+            rankList += `<li>${index + 1}. ${student}: ${studentScore} अंक</li>`;
+        }
+        if (student === name) {
+            userRank = index + 1;
+            userPercentile = ((totalStudents - userRank + 1) / totalStudents) * 100;
+
+        }
+    });
+
+    rankList += "</ul>";
+    resultDiv.innerHTML += rankList;
+
+    if (userRank !== -1) {
+        resultDiv.innerHTML += `
+            <h3>आपकी रैंकिंग</h3>
+            <p>आपकी रैंक: ${userRank} / ${totalStudents}</p>
+            <p>आपका प्रतिशतक: ${userPercentile.toFixed(2)}%</p>
+        `;
+    }
+}
+
+function storeScores() {
+    localStorage.setItem("studentScores", JSON.stringify(studentScores));
+}
+
+function loadScores() {
+    const storedScores = localStorage.getItem("studentScores");
+    if (storedScores) {
+        studentScores = JSON.parse(storedScores);
+    }
+}
+
+function startQuiz() {
+    shuffleArray(questions);
+    displayQuestion();
+    startTimer();
+    updateProgressBar();
+}
+
+loadScores();
+startQuiz();
+
+
+
+    </script>
+</body>
+</html>
